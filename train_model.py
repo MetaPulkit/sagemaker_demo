@@ -1,6 +1,6 @@
 # train_model.py
 
-import joblib
+from joblib import dump
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
@@ -14,6 +14,6 @@ model = LogisticRegression(max_iter=200)
 model.fit(X_train, y_train)
 
 # Save the model to a file
-joblib.dump(model, 'iris_model.joblib')
+dump(model, 'iris_model.joblib')
 
 print("Model trained and saved successfully!")
