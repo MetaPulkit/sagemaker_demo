@@ -1,19 +1,20 @@
-# train_model.py
+# save_model.py
+from transformers import AutoModelForSequenceClassification, AutoTokenizer
+import torch
 
-from joblib import dump
-from sklearn.datasets import load_iris
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LogisticRegression
+def save_model(model_name: str, save_directory: str):
+    # Load pretrained model and tokenizer
+    model = AutoModelForSequenceClassification.from_pretrained(model_name)
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
 
-# Load the iris dataset
-data = load_iris()
-X_train, X_test, y_train, y_test = train_test_split(data.data, data.target, test_size=0.2, random_state=42)
+    # Save model and tokenizer locally
+    model.save_pretrained(save_directory)
+    tokenizer.save_pretrained(save_directory)
 
-# Create and train the LogisticRegression model
-model = LogisticRegression(max_iter=200)
-model.fit(X_train, y_train)
+    print(f"Model saved to {save_directory}")
 
-# Save the model to a file
-dump(model, 'iris_model.joblib')
-
-print("Model trained and saved successfully!")
+# Example usage
+if __name__ == "__main__":
+    model_name = 'bert-base-uncased'  # Use any other pretrained model
+    save_directory = './model'
+    save_model(model_name, save_directory)
