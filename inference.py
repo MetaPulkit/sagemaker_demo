@@ -21,7 +21,6 @@ def predict_fn(input_data, model_and_tokenizer):
 def input_fn(request_body, content_type='application/json'):
     # Parse the input data
     if content_type == 'application/json':
-        print(content_type)
         return json.loads(request_body)
     else:
         raise ValueError("Unsupported content type")
