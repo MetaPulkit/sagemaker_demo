@@ -9,15 +9,15 @@ WORKDIR /opt/program
 # Copy 
 # Copy inference script and required files
 # COPY requirements.txt .
-# COPY inference.py .
-# COPY model.py .
+COPY inference.py .
+COPY train_model.py .
 # COPY HelperFunctions.py .
 # COPY random_weights_best_model.pt .
 # COPY random_weights_best_state.pt.pt .
 # # COPY ModelDefinition2.py .
 # copy SageMakerArtifacts/* .
 # COPY SageMakerArtifacts/.env .
-copy /* .
+# copy /* .
 # Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
