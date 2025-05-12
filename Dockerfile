@@ -8,7 +8,7 @@ WORKDIR /opt/program
 
 # Copy 
 # Copy inference script and required files
-# COPY requirements.txt .
+COPY requirements.txt .
 COPY inference.py .
 COPY train_model.py .
 # COPY HelperFunctions.py .
