@@ -31,3 +31,22 @@ jobs:
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+      - name: Recreate SageMaker Model
+        env:
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
+          ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
+          MODEL_NAME: ${{ secrets.SAGEMAKER_MODEL_NAME }}
+          ROLE_ARN: ${{ secrets.SAGEMAKER_ROLE_ARN }}
+        run: |
+          IMAGE_URI=$ECR_REGISTRY/$ECR_REPOSITORY:latest
+
+          echo "Deleting existing model (if exists)..."
+          aws sagemaker delete-model --model-name $MODEL_NAME --region $AWS_REGION || true
+
+          echo "Creating new SageMaker model..."
+          aws sagemaker create-model \
+            --model-name $MODEL_NAME \
+            --primary-container Image=$IMAGE_URI \
+            --execution-role-arn $ROLE_ARN \
+            --region $AWS_REGION
