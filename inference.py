@@ -20,6 +20,7 @@ def predict_fn(input_data, model_and_tokenizer):
 
 def input_fn(request_body, content_type='application/json'):
     # Parse the input data
+    print("")
     if content_type == 'application/json':
         return json.loads(request_body)
     else:
